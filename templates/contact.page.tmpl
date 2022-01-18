@@ -1,0 +1,17 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="page-header">
+                <h1>{{index .StringMap "title"}}</h1>
+            </div>
+            <p class="lead">
+                {{index .StringMap "body"}}
+            </p>
+            <p>&copy; {{index .StringMap "author"}}</p>
+        </div>
+    </div>
+</div>
+{{end}}

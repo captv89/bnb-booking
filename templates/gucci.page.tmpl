@@ -1,0 +1,131 @@
+{{template "base" .}}
+
+{{define "title"}}
+B8B Room Gucci
+{{end}}
+
+{{define "content"}}
+<!--Picture Album-->
+<div class="album top-space">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+                <a href="./static/images/r2_1.jpg" data-bs-toggle="modal" data-bs-target="#imageModal">
+                    <img class="img-fluid rounded" src="./static/images/r2_1.jpg" alt="room gucci image1">
+                </a>
+            </div>
+            <div class="col">
+                <a href="./static/images/r2_2.jpg" data-bs-toggle="modal" data-bs-target="#imageModal">
+                    <img class="img-fluid rounded" src="./static/images/r2_2.jpg" alt="room gucci image2">
+                </a>
+            </div>
+            <div class="col">
+                <a href="./static/images/r2_3.jpg" data-bs-toggle="modal" data-bs-target="#imageModal">
+                    <img class="img-fluid rounded" src="./static/images/r2_3.jpg" alt="room gucci image3">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="btn-close on-image" data-bs-dismiss="modal" aria-label="Close"></button>
+                <img id="modalImage" class="img-fluid" src="./static/images/" alt="room gucci">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Begin page content -->
+<main class="flex-fill mt-3">
+    <div class="container">
+        <h1 class="text-center">Room Gucci</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quo cumque non, reprehenderit facere
+            voluptatibus odio soluta facilis eaque maxime unde corrupti quidem esse, quae eveniet nihil blanditiis
+            dolorem mollitia.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis saepe voluptates fuga possimus
+            voluptatibus voluptas ducimus quis aspernatur consequuntur sapiente perspiciatis nulla quisquam quam
+            enim mollitia vitae, laborum maiores odio!</p>
+
+        <h2 class="text-center">Facilities</h2>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum et quidem esse, quisquam tempore magni
+            porro sapiente architecto sint, a aliquid sed ab veniam quod inventore nostrum nesciunt! Ipsa, odit.</p>
+
+        <!-- Accordion -->
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Bedroom
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita
+                        at incidunt explicabo autem assumenda, doloremque, adipisci aspernatur ullam, quaerat
+                        blanditiis aliquam fuga fugiat iusto illum eos nostrum quas sequi optio.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        Breakfast
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae dolor
+                        dolorem iusto saepe nihil nesciunt est veniam quaerat porro assumenda earum tempore velit
+                        qui consectetur incidunt modi, nulla optio sapiente?
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        Reception
+                    </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                        Distinctio, laborum quisquam. Ea voluptatem tempore nisi ex cupiditate consequatur. Dolorem
+                        vitae magnam eius. Tempora atque, assumenda ad sed obcaecati pariatur dignissimos!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Now Button -->
+    <div class="row">
+        <div class="column text-center">
+            <a href="/book" class="btn btn-primary text-center">Book Now</a>
+        </div>
+    </div>
+</main>
+{{end}}
+
+{{define "js"}}
+<!-- Custom Script -->
+<script>
+    var imageModal = document.getElementById('imageModal')
+    imageModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute('href')
+        // Update the modal's content.
+        document.getElementById("modalImage").src = recipient;
+    })
+</script>
+
+{{end}}

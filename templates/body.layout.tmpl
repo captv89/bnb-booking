@@ -1,8 +1,9 @@
 {{define "body"}}
 	<body>
+		{{template "header" .}}
 		{{block "content" .}}
 
 		{{end}}
-		{{template "footer"}}
+		{{template "footer" .}}
 	</body>
 {{end}}

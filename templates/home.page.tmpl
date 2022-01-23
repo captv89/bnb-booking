@@ -1,17 +1,102 @@
 {{template "base" .}}
 
+{{define "title"}}
+B8B Home
+{{end}}
+
 {{define "content"}}
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="page-header">
-                <h1>{{index .StringMap "title"}}</h1>
+<!--Carousal-->
+<div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active fixed-height">
+            <img class="img-fluid" src="./static/images/rooms_1.jpg" alt="">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Example headline.</h1>
+                    <p>Some representative placeholder content for the first slide of the carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                </div>
             </div>
-            <p class="lead">
-                {{index .StringMap "body"}}
-            </p>
-            <p>&copy; {{index .StringMap "author"}}</p>
+        </div>
+        <div class="carousel-item fixed-height">
+            <img class="img-fluid" src="./static/images/rooms_2.jpg" alt="">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Another example headline.</h1>
+                    <p>Some representative placeholder content for the second slide of the carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item fixed-height">
+            <img class="img-fluid" src="./static/images/rooms_3.jpg" alt="">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>One more for good measure.</h1>
+                    <p>Some representative placeholder content for the third slide of this carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item fixed-height">
+            <img class="img-fluid" src="./static/images/rooms_4.jpg" alt="">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>One more for good measure.</h1>
+                    <p>Some representative placeholder content for the third slide of this carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item fixed-height">
+            <img class="img-fluid" src="./static/images/rooms_5.jpg" alt="">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>One more for good measure.</h1>
+                    <p>Some representative placeholder content for the third slide of this carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                </div>
+            </div>
         </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+<!-- Begin page content -->
+<main class="flex-fill mt-4">
+    <div class="container">
+        <h1 class="text-center">Welcome to Ricardo's Bread and Breakfast</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam perspiciatis aperiam possimus, dolore
+            eveniet vitae quidem cumque itaque minus dolorem quis doloribus accusantium voluptate, repellendus modi
+            blanditiis, quas commodi! Fugit?</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis saepe voluptates fuga possimus
+            voluptatibus voluptas ducimus quis aspernatur consequuntur sapiente perspiciatis nulla quisquam quam
+            enim mollitia vitae, laborum maiores odio!</p>
+    </div>
+    <div class="row">
+        <div class="column text-center">
+            <a href="book.html" class="btn btn-primary text-center">Book Now</a>
+        </div>
+    </div>
+</main>
 {{end}}

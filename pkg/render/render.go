@@ -9,30 +9,29 @@ import (
 
 	"github.com/captv89/bnb-booking/pkg/config"
 	"github.com/captv89/bnb-booking/pkg/models"
+	"github.com/justinas/nosurf"
 )
 
 var functions = template.FuncMap{}
 
 var app *config.AppConfig
 
-
 func GetTemplateCache(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData (td *models.TemplateData) *models.TemplateData {
-	td.StringMap["author"] = "CaptV89 :)"
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.Token = nosurf.Token(r)
 	return td
 }
 
 // renderTemplate renders a template with the given data.
-func RenderTemplate(w http.ResponseWriter, tmpl string, data *models.TemplateData) {
-	
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, data *models.TemplateData) {
 	var tc map[string]*template.Template
 	var err error
 
 	if app.UseCache {
-	tc = app.TemplateCache
+		tc = app.TemplateCache
 	} else {
 		tc, err = CreateTemplateCache()
 		if err != nil {
@@ -48,7 +47,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, data *models.TemplateDat
 
 	buf := new(bytes.Buffer)
 
-	data = AddDefaultData(data)
+	data = AddDefaultData(data, r)
 
 	err = t.Execute(buf, data)
 	if err != nil {
@@ -75,7 +74,7 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		log.Println("Adding template:", name)
 		tmpl := template.Must(template.New(name).Funcs(functions).ParseFiles(page))
 
-		//Look for all layout templates
+		// Look for all layout templates
 		layouts, err := filepath.Glob("./templates/*.layout.tmpl")
 		if err != nil {
 			return myCache, err

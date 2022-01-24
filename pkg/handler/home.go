@@ -13,11 +13,11 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 
 	remoteIp := r.RemoteAddr
 	m.App.Session.Put(r.Context(), "remote_ip", remoteIp)
-	
+
 	stringMap := make(map[string]string)
 	stringMap["title"] = "Home"
 	stringMap["body"] = "This is the home page :)"
-	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{
+	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }

@@ -8,7 +8,8 @@ B8B Booking
 <main class="flex-fill">
     <div class="container top-space">
         <h1 class="mt-5 text-center">Search Availability</h1>
-        <form action="book.html" method="get" class="row g-3 mt-2 needs-validation" novalidate>
+        <form action="/book" method="post" class="row g-3 mt-2 needs-validation" novalidate>
+            <input type="hidden" name="csrf_token" value="{{.Token}}">
             <div class="row mt-5 text-center">
                 <div class="col">
                     <div id="reservation-dates">
@@ -28,18 +29,15 @@ B8B Booking
             </div>
         </form>
     </div>
-    <button id="new-toast" onclick="attention.popmsg({msg:'Oops! Something went wrong.', icon:'error'})">Alert</button>
 </main>
 {{end}}
 
 {{define "js"}}
 <!-- Custom Script -->
 <script>
-    let attention = Prompt();
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
-        'use strict'
-
+        'use strict';
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll('.needs-validation')
 
@@ -56,82 +54,15 @@ B8B Booking
             })
     })()
 
-    // Date picker
+    // Datepicker
     const elem = document.getElementById('reservation-dates');
     const rangepicker = new DateRangePicker(elem, {
-        format: "dd-mm-yyyy",
-        todayBtn: "true",
-        clearBtn: "true",
-        buttonClass: "btn",
-        calendarWeeks: "true",
-        minDate: "today",
+        format: 'dd-mm-yyyy',
+        todayBtn: 'true',
+        clearBtn: 'true',
+        buttonClass: 'btn',
+        calendarWeeks: 'true',
+        minDate: 'today',
     });
-
-    // Notify
-    function notify(type, msg) {
-        notie.alert({
-            type: type,
-            text: msg,
-            time: 3
-        });
-    }
-
-    // Modal Sweet Alert
-    function Prompt() {
-        // Toast function
-        const toast = function (c) {
-            const {
-                msg = "",
-                icon = "success",
-                position = "top-end"
-            } = c;
-
-            const Toast = Swal.mixin({
-                toast: true,
-                position: position,
-                icon: icon,
-                title: msg,
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-            Toast.fire({})
-        }
-        // Popup function
-        const popmsg = function (c) {
-            const {
-                msg = "",
-                icon = "success",
-                title = "",
-                btnText = "OK",
-                type = "text"
-            } = c;
-            if (type === 'text') {
-                Swal.fire({
-                    icon: icon,
-                    title: title,
-                    text: msg,
-                    confirmButtonText: btnText
-                })
-            } else {
-                Swal.fire({
-                    icon: icon,
-                    title: title,
-                    html: msg,
-                    confirmButtonText: btnText
-                })
-            }
-        }
-
-        return {
-            toast: toast,
-            popmsg: popmsg
-        }
-
-    }
 </script>
 {{end}}

@@ -13,7 +13,7 @@ func (*Repository) Contact(w http.ResponseWriter, r *http.Request) {
 	stringMap := make(map[string]string)
 	stringMap["title"] = "Contact"
 	stringMap["body"] = "This is the contact page :)"
-	render.RenderTemplate(w, "contact.page.tmpl", &models.TemplateData{
+	render.RenderTemplate(w, r, "contact.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }

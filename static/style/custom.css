@@ -48,6 +48,18 @@
 /* override styles here */
 .notie-container {
 	box-shadow: 1px 3px 3px rgba(37, 37, 37, 0.342);
-	z-index: 1040;
+	z-index: 9000;
 	height: 3.5rem;
+}
+
+.datepicker .datepicker-picker {
+	z-index: 10000;
+}
+
+.swal2-actions {
+	z-index: 0;
+}
+
+.swal2-html-container {
+	overflow-x: hidden;
 }

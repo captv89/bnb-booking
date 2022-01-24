@@ -108,7 +108,7 @@ B8B Room Armani
     <!-- Book Now Button -->
     <div class="row">
         <div class="column text-center">
-            <a href="/book" class="btn btn-primary text-center">Book Now</a>
+            <a id="book-now" href="#!" class="btn btn-primary text-center">Check Availability</a>
         </div>
     </div>
 </main>
@@ -117,6 +117,32 @@ B8B Room Armani
 {{define "js"}}
 <!-- Custom Script -->
 <script>
+    // Pop up form
+    document.getElementById('book-now').addEventListener('click', function (e) {
+        let html = `<form action="book.html" method="get" class="row needs-validation" novalidate>
+                        <div class="row text-center">
+                            <div class="col">
+                                <div id="reservation-dates">
+                                    <div class="row">
+                                        <div class="col">
+                                            <input disabled id="check-in" class="form-control" type="text" name="start" placeholder="Check-In" required>
+                                        </div>
+                                        <div class="col">
+                                            <input disabled id="check-out" class="form-control" type="text" name="end" placeholder="Check-Out" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>`;
+
+        attention.popform({
+            title: 'Choose your dates',
+            msg: html
+        });
+    });
+
+    // Image Modal
     var imageModal = document.getElementById('imageModal')
     imageModal.addEventListener('show.bs.modal', function (event) {
         // Button that triggered the modal

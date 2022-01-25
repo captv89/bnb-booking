@@ -27,6 +27,7 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/room-armani", handler.Repo.Armani)
 	mux.Get("/room-gucci", handler.Repo.Gucci)
 	mux.Get("/cottage-malabar", handler.Repo.Malabar)
+	mux.Post("/search-availability", handler.Repo.SearchAvailability)
 
 	// Load static files
 	fileServer := http.FileServer(http.Dir("./static/"))

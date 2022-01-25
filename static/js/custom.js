@@ -68,34 +68,34 @@ function Prompt() {
 			focusConfirm: false,
 			showCancelButton: true,
 			willOpen: () => {
-                // Get Date Picker for Swal
-				const elem = document.getElementById('reservation-dates');
-				const rangepicker = new DateRangePicker(elem, {
-					format: 'dd-mm-yyyy',
-					todayBtn: 'true',
-					clearBtn: 'true',
-					buttonClass: 'btn',
-					calendarWeeks: 'true',
-					minDate: 'today',
-					autohide: 'true',
-				});
+				if (c.willOpen !== undefined) {
+					c.willOpen();
+				}
 			},
 			preConfirm: () => {
-				return [
-					document.getElementById('check-in').value,
-					document.getElementById('check-out').value,
-				];
+				if (c.preConfirm !== undefined) {
+					c.preConfirm();
+				}
 			},
 			didOpen: () => {
-				document.getElementById('check-in').removeAttribute('disabled');
-				document
-					.getElementById('check-out')
-					.removeAttribute('disabled');
+				if (c.didOpen !== undefined) {
+					c.didOpen();
+				}
 			},
 		});
 
 		if (formValues) {
-			Swal.fire(JSON.stringify(formValues));
+			if (formValues !== Swal.DismissReason.cancel) {
+				if (formValues.length > 0) {
+					if (c.callback !== undefined) {
+						c.callback(formValues);
+					}
+				} else {
+					c.callback(false);
+				}
+			} else {
+				c.callback(false);
+			}
 		}
 	};
 

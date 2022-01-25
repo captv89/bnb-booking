@@ -11,7 +11,8 @@ import (
 	"github.com/captv89/bnb-booking/pkg/render"
 )
 
-var portNumber = ":8080"
+// Mention port number without localhost while running in production
+var portNumber = "localhost:8080"
 
 // Assign configuration struct
 var app config.AppConfig

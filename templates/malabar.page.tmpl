@@ -108,7 +108,7 @@ B8B Cottage Malabar
     <!-- Book Now Button -->
     <div class="row">
         <div class="column text-center">
-            <a id="book-now" href="#!" class="btn btn-primary text-center">Check Availability</a>
+            <a id="check-now" href="#!" class="btn btn-primary text-center">Check Availability</a>
         </div>
     </div>
 </main>
@@ -118,8 +118,8 @@ B8B Cottage Malabar
 <!-- Custom Script -->
 <script>
     // Pop up form
-    document.getElementById('book-now').addEventListener('click', function (e) {
-        let html = `<form action="book.html" method="get" class="row needs-validation" novalidate>
+    document.getElementById('check-now').addEventListener('click', function (e) {
+        let html = `<form id="search-availability" action="" method="post" class="row needs-validation" novalidate>
                         <div class="row text-center">
                             <div class="col">
                                 <div id="reservation-dates">
@@ -138,7 +138,46 @@ B8B Cottage Malabar
 
         attention.popform({
             title: 'Choose your dates',
-            msg: html
+            msg: html,
+            willOpen: () => {
+                // Get Date Picker for Swal
+                const elem = document.getElementById('reservation-dates');
+                const rangepicker = new DateRangePicker(elem, {
+                    format: 'dd-mm-yyyy',
+                    todayBtn: 'true',
+                    clearBtn: 'true',
+                    buttonClass: 'btn',
+                    calendarWeeks: 'true',
+                    minDate: 'today',
+                    autohide: 'true',
+                });
+            },
+            didOpen: () => {
+                document.getElementById('check-in').removeAttribute('disabled');
+                document
+                    .getElementById('check-out')
+                    .removeAttribute('disabled');
+            },
+            preConfirm: () => {
+                return [
+                    document.getElementById('check-in').value,
+                    document.getElementById('check-out').value,
+                ];
+            },
+            callback: function (result) {
+                let form = document.getElementById('search-availability');
+                let formData = new FormData(form);
+                formData.append("csrf_token", "{{.Token}}");
+
+                fetch('/search-availability', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                    });
+            }
         });
     });
 

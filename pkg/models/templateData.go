@@ -1,5 +1,7 @@
 package models
 
+import "github.com/captv89/bnb-booking/pkg/forms"
+
 type TemplateData struct {
 	StringMap map[string]string
 	IntMap map[string]int
@@ -10,4 +12,5 @@ type TemplateData struct {
 	Flash string
 	Warning string
 	Error string
+	Form *forms.Form
 }

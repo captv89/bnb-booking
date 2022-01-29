@@ -52,7 +52,7 @@
 	height: 3.5rem;
 }
 
-.datepicker .datepicker-picker {
+.datepicker {
 	z-index: 10000;
 }
 

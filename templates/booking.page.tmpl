@@ -8,25 +8,63 @@ B8B Booking
 <main class="flex-fill">
     <div class="container top-space">
         <h1 class="mt-5 text-center">Search Availability</h1>
-        <form action="/book" method="post" class="row g-3 mt-2 needs-validation" novalidate>
+        <form action="/book" method="post" class="mt-2" novalidate>
             <input type="hidden" name="csrf_token" value="{{.Token}}">
-            <div class="row mt-5 text-center">
+            <div class="mb-3">
+                <label for="room_select">Room</label>
+                <select class="form-select" id="room_select">
+                    <option selected>Choose...</option>
+                    <option value="armani">Armani</option>
+                    <option value="gucci">Gucci</option>
+                    <option value="malabar">Malabar</option>
+                </select>
+            </div>
+            <div class="row mb-3">
                 <div class="col">
-                    <div id="reservation-dates">
-                        <div class="row">
-                            <div class="col">
-                                <input class="form-control" type="text" name="start" placeholder="Check-In" required>
-                            </div>
-                            <div class="col">
-                                <input class="form-control" type="text" name="end" placeholder="Check-Out" required>
-                            </div>
-                        </div>
-                    </div>
+                    <label for="first_name">First Name</label>
+                    {{with .Form.Errors.Get "first_name"}}
+                    <label class="text-danger">{{.}}</label>
+                    {{end}}
+                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Jane"
+                        required>
+                </div>
+                <div class="col">
+                    <label for="last_name">Last Name</label>
+                    <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Doe" required>
                 </div>
             </div>
-            <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Search Availability</button>
+            <div class="mb-3">
+                <label for="phone">Phone</label>
+                <input class="form-control" type="tel" name="phone" id="phone" placeholder="+01-123-456-7890" required>
             </div>
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input class="form-control" type="email" name="email" id="email" placeholder="name@example.com"
+                    required>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="adults">No. of Adults</label>
+                    <input class="form-control" type="number" name="adults" id="adults" required>
+                </div>
+                <div class="col">
+                    <label for="children">No. of Children</label>
+                    <input class="form-control" type="number" name="children" id="children" required>
+                </div>
+            </div>
+            <div class="row mb-3" id="reservation-dates">
+                <div class="col">
+                    <label for="checkin">Check-in</label>
+                    <input class="form-control" type="text" name="check_in" id="check_in" placeholder="Check-In"
+                        required>
+                </div>
+                <div class="col">
+                    <label for="checkout">Check-out</label>
+                    <input class="form-control" type="text" name="check_out" id="check_out" placeholder="Check-Out"
+                        required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
         </form>
     </div>
 </main>

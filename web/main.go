@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"log"
 	"net/http"
 	"time"
@@ -8,6 +9,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/captv89/bnb-booking/pkg/config"
 	"github.com/captv89/bnb-booking/pkg/handler"
+	"github.com/captv89/bnb-booking/pkg/models"
 	"github.com/captv89/bnb-booking/pkg/render"
 )
 
@@ -21,6 +23,9 @@ var session *scs.SessionManager
 
 func main() {
 	log.Println("Starting Application..")
+
+	// what to put in the sessions to store and retrive data
+	gob.Register(models.Reservation{})
 
 	app.IsProduction = false
 

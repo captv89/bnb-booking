@@ -35,5 +35,21 @@
 
 	<!-- Custom Page Scripts -->
 	{{block "js" .}} {{end}}
+
+	<!-- Notifications -->
+	<script>
+	{{with .Error}}
+		notify('error', '{{.}}');
+	{{end}}
+
+	{{with .Flash}}
+		notify('success', '{{.}}');
+	{{end}}
+
+	{{with .Warning}}
+		notify('warning', '{{.}}');
+	{{end}}
+	</script>
+
 </footer>
 {{end}}

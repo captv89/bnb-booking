@@ -7,7 +7,8 @@ type Reservation struct {
 	Phone string `json:"phone"`
 	CheckIn string `json:"check_in"`
 	CheckOut string `json:"check_out"`
-	Adults int `json:"adults"`
-	Children int `json:"children"`
+	Adults string `json:"adults"`
+	Children string `json:"children"`
 	Room string `json:"room"`
 }
+

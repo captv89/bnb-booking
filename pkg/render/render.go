@@ -20,12 +20,16 @@ func GetTemplateCache(a *config.AppConfig) {
 	app = a
 }
 
+//  AddDefaultData: Adds data for all templates
 func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.Flash = app.Session.PopString(r.Context(), "flash")
+	td.Error = app.Session.PopString(r.Context(), "error")
+	td.Warning = app.Session.PopString(r.Context(), "warning")
 	td.Token = nosurf.Token(r)
 	return td
 }
 
-// renderTemplate renders a template with the given data.
+// RenderTemplate: renders a template with the given data.
 func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, data *models.TemplateData) {
 	var tc map[string]*template.Template
 	var err error

@@ -1,0 +1,49 @@
+{{template "base" .}}
+
+{{define "title"}}
+B8B Reservation Summary
+{{end}}
+
+{{define "content"}}
+{{$res := index .Data "reservation"}}
+<main class="flex-fill">
+    <div class="container top-space">
+        <h1 class="mt-2">Reservation Summary</h1>
+        <hr>
+        <!-- Table Summary -->
+        <table class="table table-striped">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Name:</td>
+                    <td>{{$res.FirstName}} {{$res.LastName}}</td>
+                </tr>
+                <tr>
+                    <td>Room:</td>
+                    <td>{{$res.Room}}</td>
+                </tr>
+                <tr>
+                    <td>Arrival:</td>
+                    <td>{{$res.CheckIn}}</td>
+                </tr>
+                <tr>
+                    <td>Departure:</td>
+                    <td>{{$res.CheckOut}}</td>
+                </tr>
+
+                <tr>
+                    <td>Email:</td>
+                    <td>{{$res.Email}}</td>
+                </tr>
+                <tr>
+                    <td>Phone:</td>
+                    <td>{{$res.Phone}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</main>
+
+{{end}}

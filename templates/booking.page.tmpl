@@ -5,66 +5,118 @@ B8B Booking
 {{end}}
 
 {{define "content"}}
+{{$res := index .Data "reservation"}}
 <main class="flex-fill">
     <div class="container top-space">
         <h1 class="mt-5 text-center">Search Availability</h1>
         <form action="/book" method="post" class="mt-2" novalidate>
             <input type="hidden" name="csrf_token" value="{{.Token}}">
             <div class="mb-3">
-                <label for="room_select">Room</label>
-                <select class="form-select" id="room_select">
-                    <option selected>Choose...</option>
-                    <option value="armani">Armani</option>
-                    <option value="gucci">Gucci</option>
-                    <option value="malabar">Malabar</option>
+                <label for="room">Room</label>
+                <select name="room" class="form-select" id="room" required>
+                    <option value="">--Please choose a room--</option>
+                    <option value="Armani">Armani</option>
+                    <option value="Gucci">Gucci</option>
+                    <option value="Malabar">Malabar</option>
                 </select>
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <label for="first_name">First Name</label>
                     {{with .Form.Errors.Get "first_name"}}
-                    <label class="text-danger">{{.}}</label>
-                    {{end}}
+                    <label for="first_name">First Name</label> <label class="text-danger">{{.}}</label>
+                    <input type="text" class="form-control is-invalid" id="first_name" name="first_name"
+                        placeholder="Jane" value="{{$res.FirstName}}" required>
+                    {{else}}
+                    <label for="first_name">First Name</label>
                     <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Jane"
-                        required>
+                        value="{{$res.FirstName}}" required>
+                    {{end}}
                 </div>
                 <div class="col">
+                    {{with .Form.Errors.Get "last_name"}}
+                    <label for="last_name">Last Name</label> <label class="text-danger">{{.}}</label>
+                    <input class="form-control is-invalid" type="text" name="last_name" id="last_name" placeholder="Doe"
+                        value="{{$res.LastName}}" required>
+                    {{else}}
                     <label for="last_name">Last Name</label>
-                    <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Doe" required>
+                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Doe"
+                        value="{{$res.LastName}}" required>
+                    {{end}}
                 </div>
             </div>
             <div class="mb-3">
+                {{with .Form.Errors.Get "phone"}}
+                <label for="phone">Phone</label> <label class="text-danger">{{.}}</label>
+                <input class="form-control is-invalid" type="tel" name="phone" id="phone" placeholder="+01-123-456-7890"
+                    value="{{$res.Phone}}" required>
+                {{else}}
                 <label for="phone">Phone</label>
-                <input class="form-control" type="tel" name="phone" id="phone" placeholder="+01-123-456-7890" required>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="+01-123-456-7890"
+                    value="{{$res.Phone}}" required>
+                {{end}}
             </div>
             <div class="mb-3">
+                {{with .Form.Errors.Get "email"}}
+                <label for="email">Email</label> <label class="text-danger">{{.}}</label>
+                <input class="form-control is-invalid" type="email" name="email" id="email"
+                    placeholder="name@example.com" value="{{$res.Email}}" required>
+
+                {{else}}
                 <label for="email">Email</label>
-                <input class="form-control" type="email" name="email" id="email" placeholder="name@example.com"
-                    required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com"
+                    value="{{$res.Email}}" required>
+                {{end}}
             </div>
             <div class="row mb-3">
                 <div class="col">
+                    {{with .Form.Errors.Get "adults"}}
+                    <label for="adults">No. of Adults</label> <label class="text-danger">{{.}}</label>
+                    <input class="form-control is-invalid" type="number" name="adults" id="adults"
+                        value="{{$res.Adults}}" required>
+
+                    {{else}}
                     <label for="adults">No. of Adults</label>
-                    <input class="form-control" type="number" name="adults" id="adults" required>
+                    <input type="number" class="form-control" id="adults" name="adults" value="{{$res.Adults}}"
+                        required>
+                    {{end}}
                 </div>
                 <div class="col">
+                    {{with .Form.Errors.Get "children"}}
+                    <label for="children">No. of Children</label> <label class="text-danger">{{.}}</label>
+                    <input class="form-control is-invalid" type="number" name="children" id="children"
+                        value="{{$res.Children}}" required>
+                    {{else}}
                     <label for="children">No. of Children</label>
-                    <input class="form-control" type="number" name="children" id="children" required>
+                    <input type="number" class="form-control" id="children" name="children" value="{{$res.Children}}"
+                        required>
+                    {{end}}
                 </div>
             </div>
             <div class="row mb-3" id="reservation-dates">
                 <div class="col">
+                    {{with .Form.Errors.Get "check_in"}}
+                    <label for="checkin">Check-in</label> <label class="text-danger">{{.}}</label>
+                    <input class="form-control is-invalid" type="text" name="check_in" id="check_in"
+                        placeholder="Check-In" value="{{$res.CheckIn}}" required>
+                    {{else}}
                     <label for="checkin">Check-in</label>
-                    <input class="form-control" type="text" name="check_in" id="check_in" placeholder="Check-In"
-                        required>
+                    <input type="text" class="form-control" id="check_in" name="check_in" placeholder="Check-In"
+                        value="{{$res.CheckIn}}" required>
+                    {{end}}
                 </div>
                 <div class="col">
+                    {{with .Form.Errors.Get "check_out"}}
+                    <label for="checkout">Check-out</label> <label class="text-danger">{{.}}</label>
+                    <input class="form-control is-invalid" type="text" name="check_out" id="check_out"
+                        placeholder="Check-Out" value="{{$res.CheckOut}}" required>
+                    {{else}}
                     <label for="checkout">Check-out</label>
-                    <input class="form-control" type="text" name="check_out" id="check_out" placeholder="Check-Out"
-                        required>
+                    <input type="text" class="form-control" id="check_out" name="check_out" placeholder="Check-Out"
+                        value="{{$res.CheckOut}}" required>
+                    {{end}}
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            <button id="submit" type="submit" class="btn btn-primary mt-2">Submit</button>
         </form>
     </div>
 </main>

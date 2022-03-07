@@ -3,7 +3,6 @@ package handler
 import (
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/captv89/bnb-booking/pkg/forms"
 	"github.com/captv89/bnb-booking/pkg/models"
@@ -12,61 +11,72 @@ import (
 
 func (m *Repository) Book(w http.ResponseWriter, r *http.Request) {
 	log.Println("Booking Page")
-
-	remoteIp := m.App.Session.GetString(r.Context(), "remote_ip")
-
-	stringMap := make(map[string]string)
-	stringMap["title"] = "About"
-	stringMap["body"] = "This is the about page :)"
-	stringMap["remote_ip"] = remoteIp
+	data := make(map[string]interface{})
+	emtyReservation := models.Reservation{}
+	data["reservation"] = emtyReservation
 	render.RenderTemplate(w, r, "booking.page.tmpl", &models.TemplateData{
-		StringMap: stringMap,
+		Form: forms.New(nil),
+		Data: data,
 	})
 }
 
 func (m *Repository) PostBook(w http.ResponseWriter, r *http.Request) {
-	// log.Println("Booking Page Post")
-	// checkin := r.FormValue("checkin")
-	// checkout := r.FormValue("checkout")
-	// _, _ = w.Write([]byte(fmt.Sprintf("Start Date is %s and End Date is %s", checkin, checkout)))
-	
-	// Parse the form
+	log.Println("Booking Page Post")
+
+	fields := []string{"first_name", "last_name", "email", "phone", "check_in", "check_out", "adults", "children"}
+
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	adults, err := strconv.ParseInt(r.PostFormValue("adults"), 0, 0)
-	children, err := strconv.ParseInt(r.PostFormValue("children"), 0, 0)
-
 	reservation := models.Reservation{
-		Room: r.FormValue("room_select"),
-		FirstName: r.FormValue("first_name"),
-		LastName: r.FormValue("last_name"),
-		Email: r.FormValue("email"),
-		Phone: r.FormValue("phone"),
-		CheckIn: r.FormValue("check_in"),
-		CheckOut: r.FormValue("check_out"),
-		Adults: int(adults),
-		Children: int(children),
+		Room:      r.Form.Get("room"),
+		FirstName: r.Form.Get("first_name"),
+		LastName:  r.Form.Get("last_name"),
+		Email:     r.Form.Get("email"),
+		Phone:     r.Form.Get("phone"),
+		CheckIn:   r.Form.Get("check_in"),
+		CheckOut:  r.Form.Get("check_out"),
+		Adults:    r.Form.Get("adults"),
+		Children:  r.Form.Get("children"),
 	}
 
 	form := forms.New(r.PostForm)
-
-	form.Has("first_name", r)
+	form.Validate(fields, r)
+	form.MinLength("first_name", 3, r)
+	form.IsEmail("email")
 
 	if !form.Valid() {
 		data := make(map[string]interface{})
 		data["reservation"] = reservation
-
 		render.RenderTemplate(w, r, "booking.page.tmpl", &models.TemplateData{
-		Form: form,
+			Form: form,
+			Data: data,
+		})
+		return
+	}
+
+	m.App.Session.Put(r.Context(), "reservation", reservation)
+	http.Redirect(w, r, "/summary", http.StatusSeeOther)
+}
+
+func (m *Repository) BookingSummary(w http.ResponseWriter, r *http.Request) {
+	log.Println("Booking Summary Page")
+	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	if !ok {
+		m.App.Session.Put(r.Context(), "error", "No reservation found")
+		http.Redirect(w, r, "/book", http.StatusSeeOther)
+		return
+	}
+	// If loading successful then remove the session
+	m.App.Session.Remove(r.Context(), "reservation")
+	
+	data := make(map[string]interface{})
+	data["reservation"] = reservation
+	render.RenderTemplate(w, r, "summary.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
 		Data: data,
 	})
-	return
-	}
-	
-	
-	
 }

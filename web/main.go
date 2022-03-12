@@ -22,6 +22,24 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
+	// Run the application
+	err := run() 
+	if err != nil {
+		log.Fatal(err)
+	}
+	
+	// Server routes
+	log.Println("Server starting on port", portNumber)
+	srv := &http.Server{
+		Addr:    portNumber,
+		Handler: routes(&app),
+	}
+
+	// Start the server
+	log.Fatal(srv.ListenAndServe())
+}
+
+func run() error {
 	log.Println("Starting Application..")
 
 	// what to put in the sessions to store and retrive data
@@ -40,7 +58,7 @@ func main() {
 	// Load template cache
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	// Assign settings and values to config
@@ -54,13 +72,5 @@ func main() {
 	// Pass the cache to the render package
 	render.GetTemplateCache(&app)
 
-	// Server routes
-	log.Println("Server starting on port", portNumber)
-	srv := &http.Server{
-		Addr:    portNumber,
-		Handler: routes(&app),
-	}
-
-	// Start the server
-	log.Fatal(srv.ListenAndServe())
+	return nil
 }

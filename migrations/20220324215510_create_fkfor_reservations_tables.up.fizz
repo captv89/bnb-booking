@@ -1,0 +1,2 @@
+add_foreign_key("reservations", "user_id", {"users": ["id"]}, {"name":"reservation_user", "onDelete": "CASCADE", "onUpdate": "CASCADE"});
+add_foreign_key("reservations", "room_id", {"rooms": ["id"]}, {"name":"reservation_room", "onDelete": "CASCADE", "onUpdate": "CASCADE"});

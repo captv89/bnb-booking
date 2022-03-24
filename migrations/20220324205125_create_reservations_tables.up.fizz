@@ -1,0 +1,9 @@
+create_table("reservations") {
+  t.Column("id", "integer", {"primary":true})
+  t.Column("user_id", "integer", {})
+  t.Column("no_adult", "integer", {})
+  t.Column("no_child", "integer", {})
+  t.Column("start_date", "datetime", {})
+  t.Column("end_date", "datetime", {})
+  t.Column("room_id", "integer", {})
+}

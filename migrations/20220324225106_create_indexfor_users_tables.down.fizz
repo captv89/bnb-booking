@@ -1,0 +1,3 @@
+drop_index("users", "users_first_name_last_name_idx")
+drop_index("users", "users_access_level_idx")
+drop_index("users", "users_email_idx")

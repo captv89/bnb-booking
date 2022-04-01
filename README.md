@@ -3,8 +3,6 @@
 A simple web app for making allowing users to make reservations in a B'n'B (Bread and Breakfast). It includes a web app backend for admin and reservation management.
 
 <br>
-<hr />
-<br>
 
 ## Screenshots
 
@@ -21,8 +19,6 @@ A simple web app for making allowing users to make reservations in a B'n'B (Brea
 ![screenshot of hotel room pictures with description](https://i.ibb.co/tz5p9jQ/Fire-Shot-Capture-012-B8-B-Cottage-Malabar-localhost.png)
 
 
-<br>
-<hr />
 <br>
 
 ## Full Stack with GoLang ;)

@@ -53,3 +53,7 @@ database.yml
 
 #Enviornment Variable
 .env
+
+#Temp Files
+temp
+temp/*

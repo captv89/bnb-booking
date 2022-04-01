@@ -3,8 +3,11 @@ package handler
 import (
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/captv89/bnb-booking/pkg/forms"
+	"github.com/captv89/bnb-booking/pkg/helpers"
 	"github.com/captv89/bnb-booking/pkg/models"
 	"github.com/captv89/bnb-booking/pkg/render"
 )
@@ -31,16 +34,53 @@ func (m *Repository) PostBook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Convert to Date format
+	sd := r.Form.Get("check_in")
+	ed := r.Form.Get("check_out")
+
+	layout := "20.01.2006"
+	checkIn, err := time.Parse(layout, sd)
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+	checkOut, err := time.Parse(layout, ed)
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	// Covert String to int
+	adults, err := strconv.Atoi(r.Form.Get("adults"))
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+	children, err := strconv.Atoi(r.Form.Get("children"))
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+	roomID, err := strconv.Atoi(r.Form.Get("room_id"))
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+	userID, err := strconv.Atoi(r.Form.Get("user_id"))
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+
+	// Create a new reservation object
 	reservation := models.Reservation{
-		Room:      r.Form.Get("room"),
-		FirstName: r.Form.Get("first_name"),
-		LastName:  r.Form.Get("last_name"),
-		Email:     r.Form.Get("email"),
-		Phone:     r.Form.Get("phone"),
-		CheckIn:   r.Form.Get("check_in"),
-		CheckOut:  r.Form.Get("check_out"),
-		Adults:    r.Form.Get("adults"),
-		Children:  r.Form.Get("children"),
+		CheckIn:   checkIn,
+		CheckOut:  checkOut,
+		Adults:    adults,
+		Children:  children,
+		UserID: userID,
+		RoomID:  roomID,
 	}
 
 	form := forms.New(r.PostForm)
@@ -55,6 +95,13 @@ func (m *Repository) PostBook(w http.ResponseWriter, r *http.Request) {
 			Form: form,
 			Data: data,
 		})
+		return
+	}
+
+	// Insert the reservation into database
+	err = m.DB.InsertReservation(&reservation)
+	if err != nil {
+		helpers.ServerError(w, err)
 		return
 	}
 

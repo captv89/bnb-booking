@@ -2,15 +2,19 @@ package main
 
 import (
 	"encoding/gob"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/captv89/bnb-booking/pkg/config"
+	"github.com/captv89/bnb-booking/pkg/driver"
 	"github.com/captv89/bnb-booking/pkg/handler"
 	"github.com/captv89/bnb-booking/pkg/models"
 	"github.com/captv89/bnb-booking/pkg/render"
+	"github.com/joho/godotenv"
 )
 
 // Mention port number without localhost while running in production
@@ -21,12 +25,20 @@ var app config.AppConfig
 
 var session *scs.SessionManager
 
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file", err)
+	}
+}
+
 func main() {
 	// Run the application
-	err := run() 
+	db, err := run() 
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 	
 	// Server routes
 	log.Println("Server starting on port", portNumber)
@@ -39,11 +51,16 @@ func main() {
 	log.Fatal(srv.ListenAndServe())
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	log.Println("Starting Application..")
 
 	// what to put in the sessions to store and retrive data
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
+	gob.Register(models.RoomRestriction{})
+
 
 	app.IsProduction = false
 
@@ -55,10 +72,18 @@ func run() error {
 	session.Cookie.Secure = app.IsProduction
 	app.Session = session
 
+	// Connect to database
+	dbURI := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",os.Getenv("DB_USER"),os.Getenv("DB_PASSWORD"),os.Getenv("DB_HOST"),os.Getenv("DB_PORT"),os.Getenv("DB_NAME"))
+	db, err := driver.ConnectSQL(dbURI)
+	if err != nil {
+		log.Fatal("Unable to connect to database", err)
+	}
+	
+
 	// Load template cache
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// Assign settings and values to config
@@ -66,11 +91,11 @@ func run() error {
 	app.UseCache = false
 
 	// Pass config to handlers repo
-	repo := handler.NewRepository(&app)
+	repo := handler.NewRepository(&app, db)
 	handler.AssignRepo(repo)
 
 	// Pass the cache to the render package
 	render.GetTemplateCache(&app)
 
-	return nil
+	return db, nil
 }

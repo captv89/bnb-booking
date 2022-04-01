@@ -1,9 +1,11 @@
-package main
+package test
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestRun(t *testing.T) {
-	err := run()
+	err := main.run()
 	if err != nil {
 		t.Error("Failed run(), Error Msg:", err)
 	}
